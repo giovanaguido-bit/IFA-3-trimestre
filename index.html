@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infrassom e Ultrassom | Ciência, Natureza e Acessibilidade</title>
+  <!-- Importação de fontes modernas e legíveis (Outfit para títulos e Inter para textos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       VARIÁVEIS DE DESIGN (PALETA AMARELO MANTEIGA & ROSA BEBÊ)
+       ========================================================================== */
+    :root {
+      /* Tons de Amarelo Manteiga */
+      --butter-50: #FFFDF5;
+      --butter-100: #FFF8DC;
+      --butter-200: #FFF0B8;
+      --butter-300: #FDE48E;
+      --butter-400: #F8D568;
+
+      /* Tons de Rosa Bebê */
+      --pink-50: #FFF7FA;
+      --pink-100: #FFEBF3;
+      --pink-200: #FFD6E7;
+      --pink-300: #FBBAD5;
+      --pink-400: #F296BC;
+
+      /* Neutros e Contrastes para Alta Legibilidade */
+      --bg-cream: #FFFDF9;
+      --surface-white: #FFFFFF;
+      --ink-primary: #2D222B;      /* Ameixa escuro suave para títulos */
+      --ink-secondary: #4E404B;    /* Cinza rosado escuro para leitura confortável */
+      --ink-muted: #766572;        /* Texto auxiliar e legendas */
+      --accent-plum: #6B3654;      /* Destaque institucional elegante */
+
+      /* Bordas e Sombras Suaves */
+      --border-pink: #F6CFE0;
+      --border-butter: #F4DF97;
+      --shadow-soft: 0 10px 30px -8px rgba(107, 54, 84, 0.08);
+      --shadow-hover: 0 18px 36px -10px rgba(107, 54, 84, 0.14);
+
+      /* Raios de Borda Arredondados */
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-pill: 9999px;
+    }
+
+    /* ==========================================================================
+       RESET E ESTILOS GLOBAIS
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, var(--butter-50) 0%, var(--pink-50) 50%, var(--butter-50) 100%);
+      color: var(--ink-secondary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--ink-primary);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* Orbes decorativos de fundo em amarelo manteiga e rosa bebê */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    .orb-1 {
+      width: 420px;
+      height: 420px;
+      background: var(--butter-200);
+      top: -100px;
+      left: -100px;
+    }
+
+    .orb-2 {
+      width: 460px;
+      height: 460px;
+      background: var(--pink-200);
+      top: 25%;
+      right: -140px;
+    }
+
+    .orb-3 {
+      width: 380px;
+      height: 380px;
+      background: var(--butter-200);
+      bottom: 5%;
+      left: 10%;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ==========================================================================
+       BARRA DE NAVEGAÇÃO SUPERIOR (GLASSMORPHISM)
+       ========================================================================== */
+    .navbar {
+      position: sticky;
+      top: 14px;
+      z-index: 100;
+      margin: 0 auto;
+      max-width: 1120px;
+      padding: 0 16px;
+    }
+
+    .nav-inner {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid var(--border-pink);
+      border-radius: var(--radius-pill);
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--ink-primary);
+    }
+
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--butter-300), var(--pink-300));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      transition: all 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--pink-100);
+      color: var(--ink-primary);
+    }
+
+    .nav-links a.nav-highlight {
+      background: var(--butter-200);
+      color: var(--ink-primary);
+    }
+
+    .nav-links a.nav-highlight:hover {
+      background: var(--butter-300);
+    }
+
+    /* ==========================================================================
+       HERO SECTION & ANIMAÇÃO DE ONDAS ACÚSTICAS
+       ========================================================================== */
+    .hero {
+      padding: 64px 0 48px;
+      text-align: center;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(90deg, var(--butter-200), var(--pink-200));
+      color: var(--ink-primary);
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      margin-bottom: 22px;
+      box-shadow: 0 4px 12px rgba(251, 186, 213, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
+      font-weight: 800;
+      max-width: 860px;
+      margin: 0 auto 18px;
+    }
+
+    .hero h1 span.text-butter {
+      background: linear-gradient(120deg, transparent 0%, var(--butter-300) 0%);
+      padding: 0 10px;
+      border-radius: 12px;
+    }
+
+    .hero h1 span.text-pink {
+      background: linear-gradient(120deg, transparent 0%, var(--pink-200) 0%);
+      padding: 0 10px;
+      border-radius: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      max-width: 700px;
+      margin: 0 auto 32px;
+      color: var(--ink-secondary);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-primary {
+      background: var(--pink-300);
+      color: var(--ink-primary);
+      border: 1.5px solid var(--pink-400);
+    }
+
+    .btn-primary:hover {
+      background: var(--pink-200);
+    }
+
+    .btn-secondary {
+      background: var(--butter-200);
+      color: var(--ink-primary);
+      border: 1.5px solid var(--butter-400);
+    }
+
+    .btn-secondary:hover {
+      background: var(--butter-300);
+    }
+
+    /* Visualizador Animado de Ondas Sonoras (Puro CSS) */
+    .wave-card {
+      background: var(--surface-white);
+      border: 1.5px solid var(--border-butter);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      max-width: 920px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .wave-bars {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 54px;
+      margin-bottom: 22px;
+    }
+
+    .wave-bar {
+      width: 6px;
+      border-radius: var(--radius-pill);
+      animation: soundWave 1.6s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(odd) {
+      background: var(--pink-300);
+    }
+
+    .wave-bar:nth-child(even) {
+      background: var(--butter-400);
+    }
+
+    .wave-bar:nth-child(1) { height: 18px; animation-delay: 0.1s; }
+    .wave-bar:nth-child(2) { height: 34px; animation-delay: 0.2s; }
+    .wave-bar:nth-child(3) { height: 50px; animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { height: 28px; animation-delay: 0.4s; }
+    .wave-bar:nth-child(5) { height: 44px; animation-delay: 0.5s; }
+    .wave-bar:nth-child(6) { height: 22px; animation-delay: 0.6s; }
+    .wave-bar:nth-child(7) { height: 52px; animation-delay: 0.7s; }
+    .wave-bar:nth-child(8) { height: 36px; animation-delay: 0.8s; }
+    .wave-bar:nth-child(9) { height: 26px; animation-delay: 0.9s; }
+    .wave-bar:nth-child(10) { height: 48px; animation-delay: 1.0s; }
+    .wave-bar:nth-child(11) { height: 30px; animation-delay: 0.45s; }
+    .wave-bar:nth-child(12) { height: 18px; animation-delay: 0.25s; }
+
+    @keyframes soundWave {
+      0%, 100% { transform: scaleY(0.55); }
+      50% { transform: scaleY(1.15); }
+    }
+
+    /* Barra do Espectro Acústico */
+    .spectrum-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      text-align: left;
+    }
+
+    .spectrum-zone {
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid transparent;
+    }
+
+    .zone-infra {
+      background: var(--butter-100);
+      border-color: var(--butter-300);
+    }
+
+    .zone-audible {
+      background: linear-gradient(135deg, var(--butter-100), var(--pink-100));
+      border-color: var(--border-pink);
+    }
+
+    .zone-ultra {
+      background: var(--pink-100);
+      border-color: var(--pink-300);
+    }
+
+    .spectrum-freq {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.92rem;
+      background: var(--surface-white);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 8px;
+      color: var(--ink-primary);
+    }
+
+    .spectrum-zone h3 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .spectrum-zone p {
+      font-size: 0.88rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ==========================================================================
+       SEÇÕES DE CONTEÚDO (ESTRUTURA GERAL)
+       ========================================================================== */
+    .section {
+      padding: 56px 0;
+    }
+
+    .section-header {
+      margin-bottom: 34px;
+      max-width: 780px;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 12px;
+    }
+
+    .tag-butter {
+      background: var(--butter-200);
+      color: var(--ink-primary);
+    }
+
+    .tag-pink {
+      background: var(--pink-200);
+      color: var(--ink-primary);
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.35rem);
+      margin-bottom: 10px;
+    }
+
+    .section-header p {
+      font-size: 1.02rem;
+      color: var(--ink-secondary);
+    }
+
+    /* Grids Bento */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    /* Cartões Estilizados */
+    .card {
+      background: var(--surface-white);
+      border-radius: var(--radius-md);
+      padding: 26px;
+      border: 1.5px solid var(--border-pink);
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-butter {
+      border-color: var(--border-butter);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--butter-50) 100%);
+    }
+
+    .card-pink {
+      border-color: var(--border-pink);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--pink-50) 100%);
+    }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--ink-primary);
+    }
+
+    .icon-butter {
+      background: var(--butter-200);
+    }
+
+    .icon-pink {
+      background: var(--pink-200);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .card p, .card li {
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .feature-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--pink-300);
+    }
+
+    .card-butter .feature-list li::before {
+      background: var(--butter-400);
+    }
+
+    /* Bloco de Destaque Horizontal */
+    .highlight-banner {
+      margin-top: 24px;
+      border-radius: var(--radius-md);
+      padding: 26px 30px;
+      background: linear-gradient(135deg, var(--butter-100) 0%, var(--pink-100) 100%);
+      border: 1.5px solid var(--border-pink);
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini-badge {
+      background: var(--surface-white);
+      color: var(--ink-primary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-butter);
+    }
+
+    /* ==========================================================================
+       CAIXA DE FONTES POR SEÇÃO (EXPANSÍVEL EM PURO HTML/CSS <details>)
+       ========================================================================== */
+    .sources-box {
+      margin-top: 22px;
+      background: var(--surface-white);
+      border: 1.5px dashed var(--pink-300);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+    }
+
+    .sources-box summary {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--accent-plum);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sources-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .sources-box summary::after {
+      content: "+ Ver referências";
+      font-size: 0.8rem;
+      background: var(--pink-100);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .sources-box[open] summary::after {
+      content: "− Ocultar";
+      background: var(--butter-200);
+    }
+
+    .sources-box ul {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--pink-100);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sources-box li {
+      font-size: 0.86rem;
+      color: var(--ink-muted);
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .sources-box li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-plum);
+      font-weight: bold;
+    }
+
+    /* ==========================================================================
+       PROTÓTIPOS ARDUINO (CARDS DETALHADOS)
+       ========================================================================== */
+    .prototype-card {
+      background: var(--surface-white);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      border: 1.5px solid var(--border-pink);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .prototype-card.butter-theme {
+      border-color: var(--border-butter);
+    }
+
+    .proto-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .proto-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .materials-box {
+      background: var(--butter-50);
+      border: 1px solid var(--border-butter);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin: 18px 0;
+    }
+
+    .prototype-card:not(.butter-theme) .materials-box {
+      background: var(--pink-50);
+      border-color: var(--border-pink);
+    }
+
+    .materials-box h4 {
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .materials-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .materials-tags span {
+      background: var(--surface-white);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(45, 34, 43, 0.1);
+    }
+
+    .proto-visual {
+      margin: 18px 0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1.5px solid var(--border-pink);
+      background: var(--pink-50);
+    }
+
+    .proto-visual img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .proto-note {
+      font-size: 0.85rem;
+      background: var(--butter-100);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--butter-400);
+      margin-top: 14px;
+    }
+
+    /* ==========================================================================
+       ESTUDO DE CASO CAMBÉ (PERGUNTAS E RESPOSTAS)
+       ========================================================================== */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .qa-card {
+      background: var(--surface-white);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 1.5px solid var(--border-butter);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .qa-card:nth-child(even) {
+      border-color: var(--border-pink);
+    }
+
+    .qa-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .qa-number {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      background: var(--butter-200);
+      color: var(--ink-primary);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .qa-card:nth-child(even) .qa-number {
+      background: var(--pink-200);
+    }
+
+    .qa-author {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-plum);
+      background: var(--pink-50);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-pink);
+    }
+
+    .qa-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+    }
+
+    .qa-card p {
+      font-size: 0.93rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ==========================================================================
+       SEÇÃO CONSOLIDADA DE FONTES BIBLIOGRÁFICAS E RODAPÉ
+       ========================================================================== */
+    .biblio-section {
+      background: linear-gradient(135deg, var(--butter-100), var(--pink-100));
+      border-top: 1.5px solid var(--border-pink);
+      padding: 56px 0 40px;
+      margin-top: 32px;
+    }
+
+    .biblio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .biblio-card {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      border: 1.5px solid var(--border-pink);
+    }
+
+    .biblio-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      color: var(--accent-plum);
+    }
+
+    .biblio-card ul {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .biblio-card li {
+      font-size: 0.86rem;
+      color: var(--ink-secondary);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .biblio-card li::before {
+      content: "▪";
+      position: absolute;
+      left: 0;
+      color: var(--pink-400);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(107, 54, 84, 0.15);
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+    }
+
+    /* ==========================================================================
+       RESPONSIVIDADE (TABLET E MOBILE)
+       ========================================================================== */
+    @media (max-width: 960px) {
+      .grid-3, .spectrum-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .highlight-banner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .qa-grid, .biblio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        border-radius: var(--radius-md);
+        justify-content: center;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Elementos decorativos suaves de fundo -->
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-orb orb-3" aria-hidden="true"></div>
+
+  <!-- ========================================================================
+       NAVEGAÇÃO PRINCIPAL
+       ======================================================================== -->
+  <header class="navbar">
+    <nav class="nav-inner" aria-label="Navegação principal">
+      <a href="#inicio" class="brand">
+        <span class="brand-badge" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/>
+          </svg>
+        </span>
+        <span>Acústica &amp; Ciência</span>
+      </a>
+      <div class="nav-links">
+        <a href="#espectro">Audição</a>
+        <a href="#medicina">Medicina</a>
+        <a href="#industria">Indústria</a>
+        <a href="#natureza">Natureza</a>
+        <a href="#prototipos" class="nav-highlight">Protótipos</a>
+        <a href="#cambe">Cambé (PR)</a>
+        <a href="#fontes">Fontes</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <!-- ======================================================================
+         HERO SECTION
+         ====================================================================== -->
+    <section class="hero">
+      <div class="container">
+        <span class="hero-pill">Pesquisa Científica • Tecnologia • Inclusão</span>
+        <h1>
+          O Universo Invisível do <span class="text-butter">Infrassom</span> e do <span class="text-pink">Ultrassom</span>
+        </h1>
+        <p class="hero-subtitle">
+          Explore como ondas sonoras abaixo e acima da percepção humana transformam diagnósticos médicos, processos industriais, a comunicação na natureza e projetos de acessibilidade urbana.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#medicina" class="btn btn-primary">Explorar Aplicações</a>
+          <a href="#prototipos" class="btn btn-secondary">Ver Protótipos Arduino</a>
+        </div>
+
+        <!-- Cartão Visual com Onda Sonora Animada e Espectro -->
+        <div class="wave-card">
+          <div class="wave-bars" aria-hidden="true">
+            <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+          </div>
+
+          <div class="spectrum-grid">
+            <div class="spectrum-zone zone-infra">
+              <span class="spectrum-freq">Abaixo de 20 Hz</span>
+              <h3>Infrassons</h3>
+              <p>Ondas muito graves, lentas e longas. Imperceptíveis como som aos ouvidos humanos, mas sentidas como vibração física.</p>
+            </div>
+            <div class="spectrum-zone zone-audible">
+              <span class="spectrum-freq">20 Hz a 20.000 Hz</span>
+              <h3>Audição Humana</h3>
+              <p>Faixa audível natural, cujo limite superior pode cair para ~12–14 kHz com o envelhecimento.</p>
+            </div>
+            <div class="spectrum-zone zone-ultra">
+              <span class="spectrum-freq">Acima de 20.000 Hz</span>
+              <h3>Ultrassons</h3>
+              <p>Ondas extremamente agudas, rápidas e curtas, essenciais para imagens médicas, indústria e ecolocalização.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 1: FAIXA DE AUDIÇÃO HUMANA VS. INFRASSOM E ULTRASSOM
+         ====================================================================== -->
+    <section id="espectro" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag tag-butter">Física Acústica</span>
+          <h2>Faixa de Audição Humana vs. Infrassom e Ultrassom</h2>
+          <p>A audição humana situa-se entre 20 e 20.000 hertz. Sons fora desse intervalo não são audíveis, mas desempenham papéis físicos fundamentais.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card card-butter">
+            <div>
+              <div class="card-icon icon-butter" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 12h4l3-9 6 18 3-9h4"/>
+                </svg>
+              </div>
+              <h3>Infrassons (&lt; 20 Hz)</h3>
+              <p>São ondas sonoras muito graves, lentas e longas. Embora nossos ouvidos não as captem como som, o corpo humano pode senti-las como vibrações físicas.</p>
+              <ul class="feature-list">
+                <li><strong>Elefantes:</strong> emitem infrassons entre <strong>5 e 20 Hz</strong> que ecoam pelo solo e são captados pelas patas e trombas.</li>
+                <li><strong>Terremotos:</strong> geram vibrações mecânicas concentradas entre <strong>0,001 Hz e 20 Hz</strong>, mais intensas e detectáveis a longas distâncias entre <strong>0,03 Hz e 5 Hz</strong>.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card card-pink">
+            <div>
+              <div class="card-icon icon-pink" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0"/>
+                  <path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4"/>
+                </svg>
+              </div>
+              <h3>Limites da Audição Humana</h3>
+              <p>O espectro perceptível ao ouvido humano vai de <strong>20 Hz a 20.000 Hz</strong> (20 kHz), mas sofre alterações naturais ao longo da vida.</p>
+              <ul class="feature-list">
+                <li>Com o envelhecimento natural da audição, o limite superior humano diminui para cerca de <strong>12 a 14 kHz</strong>.</li>
+                <li>Essa redução torna cada vez mais difícil perceber sons muito agudos com o passar dos anos.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card card-butter">
+            <div>
+              <div class="card-icon icon-butter" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+                </svg>
+              </div>
+              <h3>Ultrassons (&gt; 20.000 Hz)</h3>
+              <p>São ondas sonoras extremamente agudas, rápidas e de comprimento curto, totalmente inaudíveis para o ser humano.</p>
+              <ul class="feature-list">
+                <li>Possuem alta precisão direcional e capacidade de refletir em estruturas internas e superfícies pequenas.</li>
+                <li>São amplamente aproveitados na medicina diagnóstica, terapias, limpeza de precisão e sensores.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <details class="sources-box">
+          <summary>Fontes Científicas — Audição Humana, Infrassom e Ultrassom</summary>
+          <ul>
+            <li>National Library of Medicine – Hearing Loss in Older Adults.</li>
+            <li>Extended High-Frequency Audiometry in Healthy Adults with Different Age Groups (2021).</li>
+            <li>Herbst et al. (2012) – How Low Can You Go? Physical Production Mechanism of Elephant Infrasonic Vocalizations. Science.</li>
+            <li>O'Connell-Rodwell et al. (2000) – Journal of the Acoustical Society of America.</li>
+            <li>Natural and Anthropogenic Sources of Seismic, Hydroacoustic, and Infrasonic Waves: Waveforms and Spectral Characteristics (2022).</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 2: APLICAÇÕES PRÁTICAS NA MEDICINA
+         ====================================================================== -->
+    <section id="medicina" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag tag-pink">Saúde e Diagnóstico</span>
+          <h2>Aplicações Práticas na Medicina</h2>
+          <p>A ultrassonografia utiliza ondas sonoras de alta frequência para gerar imagens do interior do corpo humano por meio de um transdutor baseado no princípio de <strong>pulso e eco</strong>.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card card-pink">
+            <div>
+              <div class="card-icon icon-pink" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                </svg>
+              </div>
+              <h3>Principais Exames Clínicos</h3>
+              <ul class="feature-list">
+                <li><strong>Acompanhamento da gestação:</strong> avalia o desenvolvimento do feto, batimentos, movimentos e posição.</li>
+                <li><strong>Órgãos internos:</strong> atua em gastroenterologia, urologia, endocrinologia, mastologia e ortopedia para identificar lesões e doenças.</li>
+                <li><strong>Ultrassom Doppler:</strong> avalia o fluxo sanguíneo nos vasos, identificando estreitamentos e obstruções.</li>
+                <li><strong>Ecocardiograma:</strong> examina estrutura, movimentos, válvulas e funcionamento do coração.</li>
+                <li><strong>Procedimentos guiados:</strong> auxilia o posicionamento de agulhas em biópsias e intervenções em tempo real.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card card-butter">
+            <div>
+              <div class="card-icon icon-butter" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </div>
+              <h3>Ultrassom Beira-Leito (POCUS)</h3>
+              <p>O <em>Point of Care Ultrasound</em> (POCUS) permite que os médicos realizem avaliações com o aparelho diretamente no local onde o paciente está.</p>
+              <ul class="feature-list">
+                <li>Agiliza a investigação clínica imediata em emergências e enfermarias.</li>
+                <li>Auxilia no diagnóstico rápido de dificuldades respiratórias, alterações cardíacas e outras condições agudas.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card card-pink">
+            <div>
+              <div class="card-icon icon-pink" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/>
+                </svg>
+              </div>
+              <h3>Terapia com HIFU</h3>
+              <p>Além de produzir imagens diagnósticas, o ultrassom também possui aplicações terapêuticas avançadas.</p>
+              <ul class="feature-list">
+                <li><strong>Ultrassom Focalizado de Alta Intensidade (HIFU):</strong> concentra a energia das ondas sonoras para produzir efeito terapêutico direto.</li>
+                <li>É estudado e utilizado em tratamentos específicos de determinados tumores e alterações em tecidos.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <!-- Banner de Vantagens da Ultrassonografia -->
+        <div class="highlight-banner">
+          <div>
+            <h3>Por que a Ultrassonografia é tão segura?</h3>
+            <p>O transdutor pressionado na pele emite ondas e capta os ecos refletidos pelos tecidos sem agredir o organismo.</p>
+          </div>
+          <div class="badge-group">
+            <span class="mini-badge">✓ Método não invasivo</span>
+            <span class="mini-badge">✓ Sem radiação ionizante</span>
+            <span class="mini-badge">✓ Imagens em tempo real</span>
+            <span class="mini-badge">✓ Aplicável em várias regiões</span>
+          </div>
+        </div>
+
+        <details class="sources-box">
+          <summary>Fontes Científicas — Aplicações na Medicina</summary>
+          <ul>
+            <li>Application of Ultrasound in Medicine - PMC</li>
+            <li>Ultrasound: MedlinePlus Medical Test</li>
+            <li>Ultrasound Physics and Instrumentation - StatPearls - NCBI Bookshelf</li>
+            <li>Princípios Físicos da Ultra-Sonografia - Revisão Bibliográfica | Arquivos de Ciências Veterinárias e Zoologia da UNIPAR</li>
+            <li>The art and science of ultrasound imaging: medical applications of ultrasound in diagnosis and therapy and its impact on patient care - PMC</li>
+            <li>Ultrassonografia Geral: o que é, aplicações e residência</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 3: APLICAÇÕES NA INDÚSTRIA
+         ====================================================================== -->
+    <section id="industria" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag tag-butter">Engenharia e Produção</span>
+          <h2>Aplicações na Indústria</h2>
+          <p>Na indústria, o ultrassom permite analisar materiais, identificar defeitos internos e medir distâncias com alta precisão sem danificar as peças.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card card-butter">
+            <div>
+              <div class="card-icon icon-butter" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <h3>Ensaios Não Destrutivos (END)</h3>
+              <p>Utilizam ondas ultrassônicas para detectar rachaduras, falhas internas, bolhas e defeitos em peças metálicas, soldas e tubulações sem precisar destruí-las.</p>
+            </div>
+          </article>
+
+          <article class="card card-pink">
+            <div>
+              <div class="card-icon icon-pink" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+              </div>
+              <h3>Sonar Industrial</h3>
+              <p>Emprega ondas sonoras para medir distâncias, localizar objetos e mapear estruturas submersas, sendo fundamental em inspeções de equipamentos e obras marítimas.</p>
+            </div>
+          </article>
+
+          <article class="card card-butter">
+            <div>
+              <div class="card-icon icon-butter" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+              </div>
+              <h3>Controle de Qualidade</h3>
+              <p>Permite verificar com exatidão a espessura, densidade e integridade estrutural de materiais utilizados nas linhas de fabricação.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top: 22px;">
+          <article class="card card-pink">
+            <div>
+              <h3>Limpeza Ultrassônica</h3>
+              <p>Utiliza vibrações mecânicas de alta frequência em meio líquido para remover sujeiras microscópicas de peças pequenas, circuitos e equipamentos cirúrgicos ou industriais, alcançando locais de difícil acesso.</p>
+            </div>
+          </article>
+
+          <article class="card card-butter">
+            <div>
+              <h3>Indústria Alimentícia</h3>
+              <p>Aplicado no processamento, na conservação e no controle de qualidade dos alimentos, otimizando processos físicos e garantindo padrões seguros sem comprometer o produto.</p>
+            </div>
+          </article>
+        </div>
+
+        <details class="sources-box">
+          <summary>Fontes Científicas — Aplicações na Indústria</summary>
+          <ul>
+            <li>Awad et al. (2012). Applications of ultrasound in analysis, processing and quality control of food. Food Research International.</li>
+            <li>Bhargava et al. (2021). Advances in application of ultrasound in food processing: A review. Ultrasonics Sonochemistry.</li>
+            <li>McClements (1997). Ultrasonic characterization of foods and drinks. Critical Reviews in Food Science and Nutrition.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 4: APLICAÇÕES NA NATUREZA
+         ====================================================================== -->
+    <section id="natureza" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag tag-pink">Bioacústica e Ecossistemas</span>
+          <h2>Aplicações na Natureza</h2>
+          <p>Antes mesmo da tecnologia humana, animais terrestres, aéreos e marinhos evoluíram para emitir e captar infrassons e ultrassons na sobrevivência, orientação e comunicação.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Coluna Infrassons na Natureza -->
+          <article class="card card-butter">
+            <div>
+              <span class="section-tag tag-butter">Abaixo de 20 Hz</span>
+              <h3>Infrassons no Mundo Animal e Ambiental</h3>
+              <ul class="feature-list">
+                <li><strong>Comunicação de longa distância:</strong> Elefantes, baleias, hipopótamos, rinocerontes e girafas emitem infrassons para coordenar grupos, alertar sobre perigos e atrair parceiros a quilômetros de distância.</li>
+                <li><strong>Percepção sísmica pelas patas:</strong> Os elefantes detectam vibrações infrassônicas que viajam pelo solo por meio de receptores sensíveis nas patas e na tromba, identificando o deslocamento de outras manadas.</li>
+                <li><strong>Alarme natural contra catástrofes:</strong> Terremotos, erupções vulcânicas, avalanches e tempestades geram grandes volumes de infrassom antes do impacto visual; aves e mamíferos captam essas ondas e abandonam a área antecipadamente.</li>
+                <li><strong>Bússola para aves migratórias:</strong> Algumas espécies de aves utilizam o infrassom contínuo gerado pelo choque das ondas do oceano no litoral e pelos ventos nas montanhas como referência durante longas migrações.</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Coluna Ultrassons na Natureza -->
+          <article class="card card-pink">
+            <div>
+              <span class="section-tag tag-pink">Acima de 20.000 Hz</span>
+              <h3>Ultrassons e Ecolocalização na Natureza</h3>
+              <ul class="feature-list">
+                <li><strong>Ecolocalização para caça e voo:</strong> Morcegos emitem pulsos ultrassônicos (entre <strong>10 kHz e 200 kHz</strong>) pela boca ou narinas e analisam o eco que retorna para desviar de galhos e capturar insetos na escuridão total.</li>
+                <li><strong>Navegação submarina:</strong> Golfinhos, belugas e outras baleias com dentes (odontocetes) produzem cliques ultrassônicos que viajam <strong>cinco vezes mais rápido na água</strong> do que no ar, mapeando o fundo do mar e localizando cardumes em águas turvas.</li>
+                <li><strong>Contra-ataque de presas:</strong> Certas espécies de mariposas-tigre possuem órgãos auditivos que detectam o ultrassom dos morcegos, mergulhando bruscamente ou emitindo estalos ultrassônicos próprios para embaralhar o sonar do predador.</li>
+                <li><strong>Comunicação secreta no ninho:</strong> Roedores como camundongos e ratos usam vocalizações ultrassônicas para chamar as mães e interagir sem serem ouvidos por predadores como corujas e cobras.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <details class="sources-box">
+          <summary>Fontes Científicas — Aplicações na Natureza</summary>
+          <ul>
+            <li>Brasil Escola e PASCO Scientific.</li>
+            <li>Revista Ciência Hoje.</li>
+            <li>National Geographic Brasil.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 5: PROTÓTIPOS TECNOLÓGICOS COM ARDUINO
+         ====================================================================== -->
+    <section id="prototipos" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag tag-butter">Inovação e Robótica Educacional</span>
+          <h2>Protótipos de Segurança e Tecnologia Assistiva</h2>
+          <p>Dois projetos desenvolvidos com plataforma Arduino UNO R3 voltados à prevenção de acidentes urbanos e à autonomia de pessoas com deficiência visual.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Protótipo 1: Bengala Inteligente com Sensor Ultrassônico -->
+          <article class="prototype-card">
+            <div class="proto-header">
+              <div>
+                <span class="proto-tag tag-pink">Sensor Ultrassônico HC-SR04</span>
+                <h3 style="margin-top: 8px; font-size: 1.4rem;">Bengala Inteligente Ultrassônica</h3>
+              </div>
+            </div>
+
+            <p>
+              Criada para solucionar o problema de colisão com <strong>obstáculos aéreos e terrestres</strong> enfrentado por pessoas com deficiência visual, já que a bengala tradicional não detecta objetos suspensos a tempo. O sensor ultrassônico identifica o obstáculo à frente e aciona alertas sonoros e vibratórios.
+            </p>
+            <p style="margin-top: 8px;"><strong>Público-alvo:</strong> Pessoas cegas ou com baixa visão.</p>
+
+            <div class="proto-visual">
+              <img
+                src="https://lh3.googleusercontent.com/gg-dl/AHiVA1kmrw8O10HarofofNI8un3ouDggMCZR282Rn6K3h7Kpa7A8sC4FhNVC-2-KqeYfc-QkGx_DbOaKZmrgJYCvtvxYxi0twVrRDrGzr2rXhEgdJb76HfjKjsh_4u_K6Q6N2QK9SgmoGpqoJx245av3kHVeY3D8OKmB6v0xuOB50Ylq6OHF=s1024-rj"
+                alt="Registro visual do protótipo da Bengala Inteligente com Sensor Ultrassônico"
+                onerror="this.onerror=null; this.src='https://placehold.co/800x400/FFD6E7/2D222B?text=Bengala+Inteligente+Ultrassonica+HC-SR04';"
+              >
+            </div>
+
+            <div class="materials-box">
+              <h4>Materiais Necessários</h4>
+              <div class="materials-tags">
+                <span>1 Placa Protoboard</span>
+                <span>1 Placa Arduino UNO R3</span>
+                <span>1 Cabo USB</span>
+                <span>Jumpers macho-macho</span>
+                <span>Sensor Ultrassônico HC-SR04</span>
+                <span>1 Buzzer passivo</span>
+                <span>1 Mini motor de vibração</span>
+                <span>Notebook + Arduino IDE</span>
+              </div>
+            </div>
+
+            <a
+              href="https://lh3.googleusercontent.com/gg-dl/AHiVA1kmrw8O10HarofofNI8un3ouDggMCZR282Rn6K3h7Kpa7A8sC4FhNVC-2-KqeYfc-QkGx_DbOaKZmrgJYCvtvxYxi0twVrRDrGzr2rXhEgdJb76HfjKjsh_4u_K6Q6N2QK9SgmoGpqoJx245av3kHVeY3D8OKmB6v0xuOB50Ylq6OHF=s1024-rj"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+              style="width: 100%; justify-content: center;"
+            >
+              Abrir Registro Visual em Tela Cheia ↗
+            </a>
+          </article>
+
+          <!-- Protótipo 2: Semáforo Inteligente IR -->
+          <article class="prototype-card butter-theme">
+            <div class="proto-header">
+              <div>
+                <span class="proto-tag tag-butter">Sensor Infravermelho (IR)</span>
+                <h3 style="margin-top: 8px; font-size: 1.4rem;">Semáforo Inteligente IR</h3>
+              </div>
+            </div>
+
+            <p>
+              Desenvolvido para prevenir atropelamentos de pedestres em situações em que o condutor não consegue frear a tempo. O sensor infravermelho detecta a presença do pedestre na travessia e fecha automaticamente o semáforo para os veículos.
+            </p>
+            <p style="margin-top: 8px;"><strong>Público-alvo:</strong> Pedestres e condutores de veículos.</p>
+
+            <div class="materials-box">
+              <h4>Materiais Necessários</h4>
+              <div class="materials-tags">
+                <span>1 Placa Protoboard</span>
+                <span>1 Placa Arduino UNO R3</span>
+                <span>1 Cabo USB</span>
+                <span>3 Jumpers macho-macho</span>
+                <span>1 Módulo Semáforo</span>
+                <span>1 Sensor de Obstáculo IR</span>
+                <span>Notebook + Arduino IDE</span>
+              </div>
+            </div>
+
+            <div class="proto-note">
+              <strong>Nota Científica:</strong> Enquanto a Bengala Inteligente utiliza ondas sonoras (ultrassom), este semáforo emprega radiação <strong>infravermelha</strong> (onda eletromagnética) para detecção óptica de presença.
+            </div>
+
+            <a
+              href="https://skfb.ly/oVJr7"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+              style="width: 100%; justify-content: center; margin-top: 20px;"
+            >
+              Visualizar Modelo 3D Interativo (Sketchfab) ↗
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SEÇÃO 6: ESTUDO DE CASO — ACESSIBILIDADE EM CAMBÉ (PR)
+         ====================================================================== -->
+    <section id="cambe" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag tag-pink">Diagnóstico Territorial e Políticas Públicas</span>
+          <h2>Acessibilidade e Inclusão em Cambé (PR)</h2>
+          <p>Investigação sobre a implementação de infraestrutura acessível, legislações vigentes, fiscalização e propostas de melhoria para espaços públicos de esporte, lazer e cultura em Cambé.</p>
+        </div>
+
+        <div class="qa-grid">
+          <!-- Questão 1 -->
+          <article class="qa-card">
+            <div class="qa-meta">
+              <span class="qa-number">01 • Locais Identificados</span>
+              <span class="qa-author">Pesquisa: Beatriz</span>
+            </div>
+            <h3>Em quais locais de Cambé essas soluções estão implementadas?</h3>
+            <p>
+              Diversas praças, ginásios, centros esportivos e espaços culturais contam com recursos de acessibilidade para pessoas com deficiência ou mobilidade reduzida, destacando-se: <strong>Praça CEU (Centro de Artes e Esportes Unificados)</strong>, <strong>Parque Urbano João Paulo II</strong>, <strong>Ginásio de Esportes João de Deus Almeida</strong>, <strong>Complexo Esportivo do Castelo Branco</strong> e <strong>Centro Cultural de Cambé</strong>.
+            </p>
+          </article>
+
+          <!-- Questão 2 -->
+          <article class="qa-card">
+            <div class="qa-meta">
+              <span class="qa-number">02 • Legislação e Programas</span>
+              <span class="qa-author">Pesquisa: Beatriz</span>
+            </div>
+            <h3>Existe alguma lei, política pública ou programa relacionado ao tema?</h3>
+            <p>
+              Sim, nos âmbitos municipal e federal: <strong>Lei Municipal nº 2.327/2010</strong> (instalação de brinquedos adaptados em praças públicas); <strong>Lei Ordinária nº 3.232/2024</strong> (reestrutura o Conselho Municipal CMDPD, o Fundo e a Conferência Municipal para fiscalizar políticas de inclusão); <strong>Programa Move Cambé</strong> da SESTRAN (rebaixamento de guias, vagas especiais e credenciais digitais); e a <strong>Lei Brasileira de Inclusão (Lei Federal nº 13.146/2015)</strong> aplicada a obras como o <strong>CEU da Cultura no Jardim Paraná</strong>.
+            </p>
+          </article>
+
+          <!-- Questão 3 -->
+          <article class="qa-card">
+            <div class="qa-meta">
+              <span class="qa-number">03 • Auditoria e Evidências</span>
+              <span class="qa-author">Pesquisa: Eliza</span>
+            </div>
+            <h3>Como podemos comprovar que a solução está sendo implementada?</h3>
+            <p>
+              A comprovação exige o cruzamento entre fiscalização presencial e auditoria documental: <strong>Vistoria e Dossiê Fotográfico</strong>, pedidos via <strong>Lei de Acesso à Informação (LAI)</strong>, auditoria no <strong>Portal da Transparência</strong> e consulta aos Conselhos Municipais. Existem registros públicos que atestam essas entregas, incluindo legislação municipal, requerimentos de fiscalização, contratos oficiais de obras, planejamento institucional, notícias e registros fotográficos.
+            </p>
+          </article>
+
+          <!-- Questão 4 -->
+          <article class="qa-card">
+            <div class="qa-meta">
+              <span class="qa-number">04 • Efetividade na Prática</span>
+              <span class="qa-author">Pesquisa: Eliza</span>
+            </div>
+            <h3>A solução parece atender às necessidades das pessoas?</h3>
+            <p>
+              Atende apenas <strong>parcialmente</strong>. Embora Cambé possua diretrizes legais avançadas e tenha ampliado sua rede de equipamentos públicos e planejamento urbano, a execução prática ainda enfrenta barreiras estruturais, especialmente desafios de mobilidade no entorno dos espaços para pessoas com deficiência ou mobilidade reduzida.
+            </p>
+          </article>
+
+          <!-- Questão 5 -->
+          <article class="qa-card">
+            <div class="qa-meta">
+              <span class="qa-number">05 • Barreiras Existentes</span>
+              <span class="qa-author">Pesquisa: Giovana</span>
+            </div>
+            <h3>Quais barreiras ainda existem ou precisam ser investigadas?</h3>
+            <p>
+              Ainda persistem desafios relevantes nas praças, ginásios, parques e espaços culturais do município, principalmente: a <strong>falta de brinquedos adaptados e sensoriais</strong>, a necessidade de aprimorar as <strong>estruturas físicas</strong> existentes e a <strong>ampliação de atividades inclusivas</strong> regulares.
+            </p>
+          </article>
+
+          <!-- Questão 6 -->
+          <article class="qa-card">
+            <div class="qa-meta">
+              <span class="qa-number">06 • Propostas do Grupo</span>
+              <span class="qa-author">Pesquisa: Giovana</span>
+            </div>
+            <h3>Que melhoria ou nova solução o grupo proporia para a cidade?</h3>
+            <p>
+              O grupo propõe qualificar a acessibilidade dos espaços de cultura, esporte e lazer por meio da <strong>instalação de brinquedos adaptados e sensoriais nas praças</strong>, construção de <strong>rampas de acessibilidade</strong>, adequação arquitetônica dos espaços públicos e criação de <strong>atividades esportivas inclusivas</strong> para garantir igualdade de participação a toda a população.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       SEÇÃO 7: ACERVO CONSOLIDADO DE FONTES E RODAPÉ
+       ======================================================================== -->
+  <footer id="fontes" class="biblio-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag tag-butter">Referências Bibliográficas</span>
+        <h2>Fontes Científicas e Documentais</h2>
+        <p>Todas as referências utilizadas como base teórica para esta pesquisa sobre acústica, medicina, indústria, natureza e políticas públicas.</p>
+      </div>
+
+      <div class="biblio-grid">
+        <div class="biblio-card">
+          <h3>1. Audição Humana, Infrassom e Ultrassom</h3>
+          <ul>
+            <li>National Library of Medicine – Hearing Loss in Older Adults.</li>
+            <li>Extended High-Frequency Audiometry in Healthy Adults with Different Age Groups (2021).</li>
+            <li>Herbst et al. (2012) – How Low Can You Go? Physical Production Mechanism of Elephant Infrasonic Vocalizations. Science.</li>
+            <li>O'Connell-Rodwell et al. (2000) – Journal of the Acoustical Society of America.</li>
+            <li>Natural and Anthropogenic Sources of Seismic, Hydroacoustic, and Infrasonic Waves: Waveforms and Spectral Characteristics (2022).</li>
+          </ul>
+        </div>
+
+        <div class="biblio-card">
+          <h3>2. Aplicações na Medicina</h3>
+          <ul>
+            <li>Application of Ultrasound in Medicine - PMC.</li>
+            <li>Ultrasound: MedlinePlus Medical Test.</li>
+            <li>Ultrasound Physics and Instrumentation - StatPearls - NCBI Bookshelf.</li>
+            <li>Princípios Físicos da Ultra-Sonografia - Revisão Bibliográfica | Arquivos de Ciências Veterinárias e Zoologia da UNIPAR.</li>
+            <li>The art and science of ultrasound imaging: medical applications of ultrasound in diagnosis and therapy and its impact on patient care - PMC.</li>
+            <li>Ultrassonografia Geral: o que é, aplicações e residência.</li>
+          </ul>
+        </div>
+
+        <div class="biblio-card">
+          <h3>3. Aplicações na Indústria</h3>
+          <ul>
+            <li>Awad et al. (2012). Applications of ultrasound in analysis, processing and quality control of food. Food Research International.</li>
+            <li>Bhargava et al. (2021). Advances in application of ultrasound in food processing: A review. Ultrasonics Sonochemistry.</li>
+            <li>McClements (1997). Ultrasonic characterization of foods and drinks. Critical Reviews in Food Science and Nutrition.</li>
+          </ul>
+        </div>
+
+        <div class="biblio-card">
+          <h3>4. Aplicações na Natureza &amp; Documentação Urbana</h3>
+          <ul>
+            <li>Brasil Escola e PASCO Scientific.</li>
+            <li>Revista Ciência Hoje.</li>
+            <li>National Geographic Brasil.</li>
+            <li>Legislação Municipal de Cambé (Leis nº 2.327/2010 e nº 3.232/2024), Programa Move Cambé (SESTRAN) e Lei Brasileira de Inclusão (Lei nº 13.146/2015).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Projeto Interdisciplinar sobre Infrassom, Ultrassom, Prototipagem Arduino e Acessibilidade em Cambé (PR) • Desenvolvido em HTML e CSS.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
